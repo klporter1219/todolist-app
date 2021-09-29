@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { List, Grid, Label, Button } from 'semantic-ui-react';
 
-const Task = ({ name, color, editTask, index }) => {
-    // console.log(name, color);
+import EditTaskForm from './EditTaskForm';
+
+const Task = ({ name, color, editTask, deleteTask, index }) => {
+    const [editOpen, setEditOpen] = useState(false);
 
     function editCurrentTask() {
-      editTask(index);
+      setEditOpen(true);
+    }
+
+    function deleteCurrentTask() {
+      deleteTask(index);
+    }
+
+    function saveTask(task) {
+      editTask(index, task);
     }
 
     return (
         <React.Fragment>
+            {
+              editOpen && <EditTaskForm task={{ name, color }} setTask={saveTask} closeEditTask={() => setEditOpen(false)} />
+            }
             <List.Item>
             <Grid columns='2'>
               <Grid.Column>
@@ -19,7 +32,7 @@ const Task = ({ name, color, editTask, index }) => {
                 </Label>
               </Grid.Column>
               <Grid.Column textAlign='right'>
-                <Button icon='trash' color='red'></Button>
+                <Button onClick={deleteCurrentTask} icon='trash' color='red'></Button>
                 <Button onClick={editCurrentTask} icon='pencil' color='orange'></Button>
               </Grid.Column>
             </Grid>

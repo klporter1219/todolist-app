@@ -48,20 +48,21 @@ const HomePage = () => {
   //   );
   // });
 
-  function editTask(index) {
+  function editTask(index, newTask) {
     console.log('edit', index);
     const newList = list.map((task, i) => {
       if (i !== index) return task;
-      return {
-        name: `Edit ${task.name}`,
-        color: task.color,
-      }
+      return newTask;
     })
     setList(newList);
   }
 
-  function deleteTask() {
-    // Array.filter
+  function deleteTask(index) {
+    const newList = [...list];
+
+    newList.splice(index, 1);
+
+    setList(newList)
   }
 
   const taskList = list.map((task, index) => {
@@ -71,6 +72,7 @@ const HomePage = () => {
           name={task.name} 
           color={task.color}
           editTask={editTask}
+          deleteTask={deleteTask}
           index={index}
       />
     );
